@@ -1,0 +1,37 @@
+#include<Servo.h>
+
+int pulsetime;
+int trigPin=5;
+int echoPin=6;
+float distance;
+Servo myServo;
+int lid_delaytime=5000;
+  
+void setup()
+{
+pinMode(trigPin,OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(9600);
+myServo.attach(11);
+myServo.write(0);
+}
+
+void loop()
+{
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(5);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(trigPin, LOW);
+  
+  pulsetime=pulseIn(echoPin, HIGH);
+  //Serial.println(pulsetime);
+  distance=(100.0/5742)*pulsetime;
+  //Serial.println(distance);
+
+if (distance<100.0){
+myServo.write(85);
+delay(lid_delaytime);
+}
+else myServo.write(0);
+}
