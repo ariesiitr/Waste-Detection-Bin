@@ -1,0 +1,36 @@
+#include<LiquidCrystal.h>
+
+int trigPin=4;
+int echoPin=3;
+int pulseTime;
+float distance;
+int rs=7;
+int en=8;
+int d1=10,d2=11,d3=12,d4=13;
+LiquidCrystal lcd(rs,en,d1,d2,d3,d4);
+
+void setup()
+{
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  lcd.begin(16,2);
+}
+
+void loop()
+{
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(5);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(trigPin, LOW);
+  
+  pulseTime=pulseIn(echoPin, HIGH);
+  distance=(100.0/5810)*pulseTime;
+  
+  if (distance<20.0){
+  lcd.setCursor(0,0);
+  lcd.print("Dustbin filled!");
+  lcd.setCursor(0,1);
+  lcd.print("Please Empty");
+  }
+}
